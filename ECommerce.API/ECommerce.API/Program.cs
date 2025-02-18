@@ -2,6 +2,8 @@ using ECommerce.Infra;
 using ECommerce.Core;
 using Microsoft.AspNetCore.Builder;
 using ECommerce.API.Middlewares;
+using System.Text.Json.Serialization;
+using ECommerce.Core.Mappers;
 
 namespace ECommerce.API
 {
@@ -13,18 +15,25 @@ namespace ECommerce.API
 
             builder.Services.AddInfrastructure();
             builder.Services.AddCore();
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions
+            (
+                options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
+            );
+            builder.Services.AddAutoMapper(typeof(ApplicationUserMappingProfile).Assembly);
 
             var app = builder.Build();
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
-            
+
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllers();   
+            app.MapControllers();
             app.Run();
         }
     }

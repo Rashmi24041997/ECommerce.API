@@ -14,12 +14,12 @@ namespace ECommerce.Infra
         public async Task<ApplicationUser?> AddUser(ApplicationUser user)
         {
             user.UserID = new Guid();
-            return user;
+            return await Task.FromResult(user);
         }
 
         public async Task<ApplicationUser?> GetUserByEmailAndPassword(string? email, string? password)
         {
-            return new ApplicationUser()
+            var user = new ApplicationUser()
             {
                 UserID = Guid.NewGuid(),
                 Email = email,
@@ -27,6 +27,7 @@ namespace ECommerce.Infra
                 PersonName = "Person1",
                 Gender = GenderOptions.Female.ToString()
             };
+            return await Task.FromResult(user);
         }
     }
 }

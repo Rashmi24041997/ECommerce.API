@@ -3,6 +3,7 @@ using ECommerce.Core.ServiceContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using ECommerce.Infra;
 
 namespace ECommerce.API.Controllers
 {
@@ -32,7 +33,7 @@ namespace ECommerce.API.Controllers
             }
 
             AuthenticationResponse? authResponse = await usersService.Register(registerRequest);
-            if (authResponse == null || !authResponse.Sucess)
+            if (authResponse == null || !authResponse.Success)
             {
                 return BadRequest(ModelState);
             }
@@ -50,7 +51,7 @@ namespace ECommerce.API.Controllers
             }
 
             AuthenticationResponse? authResponse = await usersService.Login(loginRequest);
-            if (authResponse == null || !authResponse.Sucess)
+            if (authResponse == null || !authResponse.Success)
             {
                 return Unauthorized(authResponse);
             }

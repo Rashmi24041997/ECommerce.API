@@ -12,6 +12,10 @@ namespace ECommerce.Core.Dtos
    string? PersonName,
    string? Gender,
    string? Token,
-   bool Sucess
-   );
+   bool Success
+   )
+    {
+        public AuthenticationResponse() : this(default, default, default, default, default, default)
+        { }
+    }
 }

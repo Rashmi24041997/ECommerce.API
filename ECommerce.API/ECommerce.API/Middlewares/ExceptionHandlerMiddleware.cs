@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 
 namespace ECommerce.API.Middlewares
@@ -24,7 +27,12 @@ namespace ECommerce.API.Middlewares
             }
             catch (Exception ex)
             {
-                logger.LogError($"{ex.GetType().Name}: {ex.Message}");
+                logger.LogError(JsonSerializer.Serialize(new
+                {
+                    Message = ex.Message,
+                    Type = ex.GetType().ToString(),
+                    StackTrace = ex.StackTrace
+                }, new JsonSerializerOptions { WriteIndented = true }));
                 if (ex.InnerException is not null)
                 {
                     logger.LogError($"{ex.InnerException.GetType().Name}:{ex.InnerException.Message}");
@@ -32,7 +40,8 @@ namespace ECommerce.API.Middlewares
                     await httpContext.Response.WriteAsJsonAsync(new
                     {
                         Message = ex.Message,
-                        Type = ex.InnerException.GetType().ToString()
+                        Type = ex.InnerException.GetType().ToString(),
+                        StackTrace = ex.StackTrace
                     });
                 }
             }

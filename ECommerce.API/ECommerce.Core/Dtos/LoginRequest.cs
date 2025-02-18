@@ -8,5 +8,11 @@ namespace ECommerce.Core.Dtos
 {
     public record LoginRequest(
       string? Email,
-      string? Password);
+      string? Password)
+    {
+        public LoginRequest() : this(default, default)
+        {
+
+        }
+    }
 }
