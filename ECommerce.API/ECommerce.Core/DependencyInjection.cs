@@ -1,4 +1,6 @@
 ﻿using ECommerce.Core.Services;
+using ECommerce.Core.Validators;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ public static class DependencyInjection
         //to do:Add services to the IoC Container
         //Core services often include data access, caching n other low level components
         services.AddSingleton<ServiceContracts.IUsersService, UsersService>();
+        services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
         return services;
     }
 }
